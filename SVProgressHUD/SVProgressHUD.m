@@ -1334,11 +1334,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 }
     
 - (UIImageView*)imageView {
-    if(_imageView && !CGSizeEqualToSize(_imageView.bounds.size, _imageViewSize)) {
-        [_imageView removeFromSuperview];
-        _imageView = nil;
-    }
-        
+    
     if(!_imageView) {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _imageViewSize.width, _imageViewSize.height)];
     }
@@ -1350,10 +1346,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 #endif
     }
         
-        //    if(!CGSizeEqualToSize(_imageView.bounds.size, _imageViewSize)) {
-        //        _imageView.frame = CGRectMake(0.0f, 0.0f, _imageViewSize.width, _imageViewSize.width);
-        //    }
-        
+    if(!CGSizeEqualToSize(_imageView.bounds.size, _imageViewSize)) {
+        _imageView.frame = CGRectMake(0.0f, 0.0f, _imageViewSize.width, _imageViewSize.width);
+    }
+    
     return _imageView;
 }
 
