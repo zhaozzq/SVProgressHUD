@@ -10,6 +10,15 @@
 
 @implementation ViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [SVProgressHUD setImageViewSize:CGSizeMake(200, 50)];
+    [SVProgressHUD setErrorImage:[UIImage imageNamed:@"hud_hint"]];
+    [SVProgressHUD setSuccessImage:[UIImage imageNamed:@"hud_ success"]];
+    [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+}
 
 #pragma mark - Notification Methods Sample
 
