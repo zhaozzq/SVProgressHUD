@@ -155,6 +155,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self sharedView].cornerRadius = cornerRadius;
 }
 
++ (void)setImageViewSize:(CGSize)imageViewSize {
+    [self sharedView].imageViewSize = imageViewSize;
+}
+
 + (void)setFont:(UIFont*)font {
     [self sharedView].font = font;
 }
@@ -388,6 +392,8 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         _ringNoTextRadius = 24.0f;
         
         _cornerRadius = 14.0f;
+        
+        _imageViewSize = CGSizeMake(28.0f, 28.0f);
         
         _minimumDismissTimeInterval = 5.0;
         _maximumDismissTimeInterval = CGFLOAT_MAX;
@@ -816,12 +822,12 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             [strongSelf cancelIndefiniteAnimatedViewAnimation];
             
             // Update imageView
-            UIColor *tintColor = strongSelf.foregroundColorForStyle;
+//            UIColor *tintColor = strongSelf.foregroundColorForStyle;
             UIImage *tintedImage = image;
-            if (image.renderingMode != UIImageRenderingModeAlwaysTemplate) {
-                tintedImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            }
-            strongSelf.imageView.tintColor = tintColor;
+//            if (image.renderingMode != UIImageRenderingModeAlwaysTemplate) {
+//                tintedImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//            }
+//            strongSelf.imageView.tintColor = tintColor;
             strongSelf.imageView.image = tintedImage;
             strongSelf.imageView.hidden = NO;
             
@@ -1326,10 +1332,15 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 
     return _statusLabel;
 }
-
+    
 - (UIImageView*)imageView {
+    if(_imageView && !CGSizeEqualToSize(_imageView.bounds.size, _imageViewSize)) {
+        [_imageView removeFromSuperview];
+        _imageView = nil;
+    }
+        
     if(!_imageView) {
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 28.0f, 28.0f)];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _imageViewSize.width, _imageViewSize.height)];
     }
     if(!_imageView.superview) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
@@ -1338,7 +1349,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         [self.hudView addSubview:_imageView];
 #endif
     }
-    
+        
+        //    if(!CGSizeEqualToSize(_imageView.bounds.size, _imageViewSize)) {
+        //        _imageView.frame = CGRectMake(0.0f, 0.0f, _imageViewSize.width, _imageViewSize.width);
+        //    }
+        
     return _imageView;
 }
 
@@ -1433,7 +1448,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     if (!_isInitializing) _cornerRadius = cornerRadius;
 }
-
+    
+- (void)setImageViewSize:(CGSize)imageViewSize {
+    if (!_isInitializing) _imageViewSize = imageViewSize;
+}
+    
 - (void)setFont:(UIFont*)font {
     if (!_isInitializing) _font = font;
 }
